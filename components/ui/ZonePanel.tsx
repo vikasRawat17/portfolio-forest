@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { useGameStore } from '@/lib/store'
+import type { ZoneId } from '@/lib/store'
 import { gsap } from 'gsap'
 import dynamic from 'next/dynamic'
 
@@ -11,7 +12,7 @@ const GrovePanel     = dynamic(() => import('@/components/panels/GrovePanel'))
 const FireflyPanel   = dynamic(() => import('@/components/panels/FireflyPanel'))
 const CampfirePanel  = dynamic(() => import('@/components/panels/CampfirePanel'))
 
-const PANEL_MAP: Record<string, React.ComponentType> = {
+const PANEL_MAP: Record<NonNullable<ZoneId>, React.ComponentType> = {
   cabin:     CabinPanel,
   waterfall: WaterfallPanel,
   ruins:     RuinsPanel,
@@ -24,8 +25,10 @@ export function ZonePanel() {
   const enteredZone = useGameStore((s) => s.enteredZone)
   const overlayRef  = useRef<HTMLDivElement>(null)
   const contentRef  = useRef<HTMLDivElement>(null)
+  const mounted     = useRef(false)
 
   useEffect(() => {
+    if (!mounted.current) { mounted.current = true; return }
     const overlay = overlayRef.current
     const content = contentRef.current
     if (!overlay || !content) return
