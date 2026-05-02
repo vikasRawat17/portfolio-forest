@@ -4,6 +4,7 @@ import { Physics } from '@react-three/rapier'
 import { Terrain } from './Terrain'
 import { SkyDome } from './SkyDome'
 import { Vegetation } from './Vegetation'
+import { Hunter } from '@/components/hunter/Hunter'
 
 export default function ForestWorld() {
   return (
@@ -23,6 +24,7 @@ export default function ForestWorld() {
       <Physics gravity={[0, -20, 0]}>
         <Terrain />
         <Vegetation />
+        <Hunter />
       </Physics>
     </Canvas>
   )
