@@ -1,16 +1,21 @@
 'use client'
+import { useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Physics } from '@react-three/rapier'
+import * as THREE from 'three'
 import { Terrain } from './Terrain'
 import { SkyDome } from './SkyDome'
 import { Vegetation } from './Vegetation'
 import { Hunter } from '@/components/hunter/Hunter'
+import { HunterCamera } from '@/components/hunter/HunterCamera'
 
 export default function ForestWorld() {
+  const hunterMeshRef = useRef<THREE.Group>(null)
+
   return (
     <Canvas
       shadows
-      camera={{ fov: 60, near: 0.1, far: 400, position: [0, 30, 60] }}
+      camera={{ fov: 60, near: 0.1, far: 400, position: [0, 5, 9] }}
       style={{ width: '100vw', height: '100vh', background: '#08080c' }}
     >
       <SkyDome />
@@ -24,8 +29,9 @@ export default function ForestWorld() {
       <Physics gravity={[0, -20, 0]}>
         <Terrain />
         <Vegetation />
-        <Hunter />
+        <Hunter meshRef={hunterMeshRef} />
       </Physics>
+      <HunterCamera targetRef={hunterMeshRef} />
     </Canvas>
   )
 }

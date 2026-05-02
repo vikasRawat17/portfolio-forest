@@ -9,9 +9,14 @@ const SPRINT_SPEED = 9
 
 const keys: Record<string, boolean> = {}
 
-export function Hunter() {
+interface HunterProps {
+  meshRef?: React.RefObject<THREE.Group | null>
+}
+
+export function Hunter({ meshRef: externalRef }: HunterProps = {}) {
   const rbRef = useRef<RapierRigidBody>(null)
-  const meshRef = useRef<THREE.Group>(null)
+  const internalRef = useRef<THREE.Group>(null)
+  const meshRef = externalRef ?? internalRef
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => { keys[e.code] = true }
