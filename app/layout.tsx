@@ -15,7 +15,18 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Vikas Singh Rawat — Full-Stack Engineer',
   description:
-    'Full-stack engineer at Outbox Labs. Building ColdStats, shipping ReachInbox. Open to opportunities.',
+    'Full-stack engineer at Outbox Labs. Building ColdStats, shipping ReachInbox. Available for senior / mid full-stack roles.',
+  keywords: [
+    'Vikas Singh Rawat', 'Full-stack engineer', 'MERN developer',
+    'Next.js engineer', 'ColdStats', 'ReachInbox', 'Outbox Labs',
+    'Bangalore developer', 'TypeScript engineer',
+  ],
+  openGraph: {
+    title: 'Vikas Singh Rawat — Full-Stack Engineer',
+    description: 'Full-stack engineer at Outbox Labs. Building ColdStats. Open to opportunities.',
+    locale: 'en_IN',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
