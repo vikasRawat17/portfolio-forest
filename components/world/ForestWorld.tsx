@@ -1,0 +1,26 @@
+'use client'
+import { Canvas } from '@react-three/fiber'
+import { Physics } from '@react-three/rapier'
+import { Terrain } from './Terrain'
+
+export default function ForestWorld() {
+  return (
+    <Canvas
+      shadows
+      camera={{ fov: 60, near: 0.1, far: 400 }}
+      style={{ width: '100vw', height: '100vh', background: '#08080c' }}
+    >
+      <ambientLight intensity={0.3} color="#4466aa" />
+      <directionalLight
+        position={[20, 40, 10]}
+        intensity={0.8}
+        color="#8899cc"
+        castShadow
+        shadow-mapSize={[2048, 2048]}
+      />
+      <Physics gravity={[0, -20, 0]}>
+        <Terrain />
+      </Physics>
+    </Canvas>
+  )
+}
