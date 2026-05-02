@@ -3,7 +3,7 @@ import { create } from 'zustand'
 export type WeatherState = 'clear' | 'fog' | 'rain' | 'storm'
 export type ZoneId = 'cabin' | 'ruins' | 'waterfall' | 'grove' | 'firefly' | 'campfire' | null
 
-interface GameStore {
+export interface GameStore {
   weather: WeatherState
   setWeather: (w: WeatherState) => void
   activeZone: ZoneId
