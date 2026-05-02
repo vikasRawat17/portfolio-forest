@@ -1,16 +1,24 @@
 'use client'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Physics } from '@react-three/rapier'
 import * as THREE from 'three'
 import { Terrain } from './Terrain'
 import { SkyDome } from './SkyDome'
 import { Vegetation } from './Vegetation'
+import { WeatherFog } from './WeatherFog'
+import { WeatherParticles } from './WeatherParticles'
 import { Hunter } from '@/components/hunter/Hunter'
 import { HunterCamera } from '@/components/hunter/HunterCamera'
+import { startWeatherCycle, stopWeatherCycle } from '@/lib/weatherCycle'
 
 export default function ForestWorld() {
   const hunterMeshRef = useRef<THREE.Group>(null)
+
+  useEffect(() => {
+    startWeatherCycle()
+    return () => stopWeatherCycle()
+  }, [])
 
   return (
     <Canvas
@@ -19,6 +27,8 @@ export default function ForestWorld() {
       style={{ width: '100vw', height: '100vh', background: '#08080c' }}
     >
       <SkyDome />
+      <WeatherFog />
+      <WeatherParticles />
       <directionalLight
         position={[20, 40, 10]}
         intensity={0.8}
