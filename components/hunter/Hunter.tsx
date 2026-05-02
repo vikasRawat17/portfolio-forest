@@ -40,11 +40,12 @@ export function Hunter() {
     if (keys['KeyD'] || keys['ArrowRight']) dx += 1
 
     const dir = new THREE.Vector2(dx, dz)
-    if (dir.length() > 0) dir.normalize()
+    const moving = dir.length() > 0
+    if (moving) dir.normalize()
 
     rb.setLinvel({ x: dir.x * speed, y: vel.y, z: dir.y * speed }, true)
 
-    if (dir.length() > 0) {
+    if (moving) {
       const angle = Math.atan2(dir.x, dir.y)
       mesh.rotation.y = THREE.MathUtils.lerp(mesh.rotation.y, angle, 0.15)
     }
@@ -58,7 +59,7 @@ export function Hunter() {
       lockRotations
       position={[0, 1, 0]}
     >
-      <CapsuleCollider args={[0.5, 0.4]} />
+      <CapsuleCollider args={[0.4, 0.3]} />
       <group ref={meshRef}>
         <mesh position={[0, 0, 0]} castShadow>
           <capsuleGeometry args={[0.3, 1.0, 4, 8]} />
