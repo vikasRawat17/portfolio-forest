@@ -5,6 +5,7 @@ import { useGameStore } from '@/lib/store'
 import { initAudio, setWeatherAudio, setMuted } from '@/lib/audio'
 import { HUD } from '@/components/ui/HUD'
 import { ZonePanel } from '@/components/ui/ZonePanel'
+import { LoadingScreen } from '@/components/ui/LoadingScreen'
 
 const ForestWorld = dynamic(() => import('@/components/world/ForestWorld'), {
   ssr: false,
@@ -30,6 +31,7 @@ export default function Home() {
 
   return (
     <>
+      {!loaded && <LoadingScreen />}
       <ForestWorld />
       <HUD />
       <ZonePanel />
