@@ -1,7 +1,5 @@
-'use client'
-
 import { useMemo } from 'react'
-import { RigidBody } from '@react-three/rapier'
+import { RigidBody, CylinderCollider } from '@react-three/rapier'
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed) * 10000
@@ -12,7 +10,8 @@ type TreeProps = { position: [number, number, number]; scale: number }
 
 function PineTree({ position, scale }: TreeProps) {
   return (
-    <RigidBody type="fixed" colliders="ball" position={position}>
+    <RigidBody type="fixed" colliders={false} position={position}>
+      <CylinderCollider args={[1 * scale, 0.25 * scale]} position={[0, 1 * scale, 0]} />
       <group scale={scale}>
         <mesh position={[0, 1, 0]} castShadow>
           <cylinderGeometry args={[0.15, 0.25, 2, 6]} />
@@ -37,7 +36,7 @@ function PineTree({ position, scale }: TreeProps) {
 
 function Rock({ position, scale }: TreeProps) {
   return (
-    <RigidBody type="fixed" colliders="cuboid" position={position}>
+    <RigidBody type="fixed" colliders="hull" position={position}>
       <mesh scale={scale} castShadow receiveShadow>
         <dodecahedronGeometry args={[0.6, 0]} />
         <meshStandardMaterial color="#2a2a2a" roughness={0.95} />
@@ -64,14 +63,17 @@ export function Vegetation() {
   }, [])
 
   const rocks = useMemo<TreeProps[]>(() => {
-    return Array.from({ length: 25 }, (_, i) => ({
-      position: [
-        (seededRandom(i * 11.1) - 0.5) * 90,
-        0.3,
-        (seededRandom(i * 9.7) - 0.5) * 90,
-      ],
-      scale: 0.5 + seededRandom(i * 4.3) * 1.5,
-    }))
+    return Array.from({ length: 25 }, (_, i) => {
+      const s = 0.5 + seededRandom(i * 4.3) * 1.5
+      return {
+        position: [
+          (seededRandom(i * 11.1) - 0.5) * 90,
+          0.6 * s,
+          (seededRandom(i * 9.7) - 0.5) * 90,
+        ],
+        scale: s,
+      }
+    })
   }, [])
 
   return (
