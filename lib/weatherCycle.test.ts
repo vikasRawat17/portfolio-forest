@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
 import { randomNext, WEATHER_STATES } from './weatherCycle'
-import type { WeatherState } from './store'
 
 describe('randomNext', () => {
   it('never returns current state', () => {

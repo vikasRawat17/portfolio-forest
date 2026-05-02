@@ -14,6 +14,7 @@ export function randomNext(current: WeatherState): WeatherState {
 let timer: ReturnType<typeof setTimeout> | null = null
 
 export function startWeatherCycle(): void {
+  if (timer !== null) return
   function tick() {
     const { weather, setWeather } = useGameStore.getState()
     setWeather(randomNext(weather))
