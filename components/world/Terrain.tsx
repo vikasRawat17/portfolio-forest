@@ -2,7 +2,7 @@ import { RigidBody } from '@react-three/rapier'
 
 export function Terrain() {
   return (
-    <RigidBody type="fixed" colliders="cuboid">
+    <RigidBody type="fixed" colliders="trimesh">
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[120, 120, 32, 32]} />
         <meshStandardMaterial

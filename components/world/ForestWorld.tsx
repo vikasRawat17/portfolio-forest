@@ -7,7 +7,7 @@ export default function ForestWorld() {
   return (
     <Canvas
       shadows
-      camera={{ fov: 60, near: 0.1, far: 400 }}
+      camera={{ fov: 60, near: 0.1, far: 400, position: [0, 30, 60] }}
       style={{ width: '100vw', height: '100vh', background: '#08080c' }}
     >
       <ambientLight intensity={0.3} color="#4466aa" />
