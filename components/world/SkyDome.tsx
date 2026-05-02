@@ -23,22 +23,24 @@ export function SkyDome() {
   return (
     <>
       <Sky
-        distance={450}
+        distance={350}
         sunPosition={cfg.sunPosition}
         turbidity={cfg.turbidity}
         rayleigh={cfg.rayleigh}
         mieCoefficient={0.005}
         mieDirectionalG={0.8}
       />
-      <Stars
-        radius={100}
-        depth={50}
-        count={3000}
-        factor={4}
-        fade
-        speed={0}
-        saturation={0}
-      />
+      {cfg.starsOpacity > 0 && (
+        <Stars
+          radius={100}
+          depth={50}
+          count={3000}
+          factor={4}
+          fade
+          speed={0}
+          saturation={0}
+        />
+      )}
       <ambientLight color={cfg.ambientColor} intensity={cfg.ambientIntensity} />
     </>
   )
