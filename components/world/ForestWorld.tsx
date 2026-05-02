@@ -11,6 +11,7 @@ import { WeatherParticles } from './WeatherParticles'
 import { Hunter } from '@/components/hunter/Hunter'
 import { HunterCamera } from '@/components/hunter/HunterCamera'
 import { AnimalSpawner } from '@/components/animals/AnimalSpawner'
+import { ZoneManager } from '@/components/zones/ZoneManager'
 import { startWeatherCycle, stopWeatherCycle } from '@/lib/weatherCycle'
 
 export default function ForestWorld() {
@@ -42,6 +43,7 @@ export default function ForestWorld() {
         <Vegetation />
         <Hunter meshRef={hunterMeshRef} />
         <AnimalSpawner hunterRef={hunterMeshRef} />
+        <ZoneManager />
       </Physics>
       <HunterCamera targetRef={hunterMeshRef} />
     </Canvas>

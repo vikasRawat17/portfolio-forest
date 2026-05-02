@@ -1,13 +1,14 @@
 'use client'
 import dynamic from 'next/dynamic'
+import { HUD } from '@/components/ui/HUD'
 
-const ForestWorld = dynamic(() => import('@/components/world/ForestWorld'), {
-  ssr: false,
-  loading: () => (
-    <div style={{ width: '100vw', height: '100vh', background: '#08080c' }} />
-  ),
-})
+const ForestWorld = dynamic(() => import('@/components/world/ForestWorld'), { ssr: false })
 
 export default function Home() {
-  return <ForestWorld />
+  return (
+    <>
+      <ForestWorld />
+      <HUD />
+    </>
+  )
 }
