@@ -1,23 +1,23 @@
-import { useRef, useMemo } from 'react'
+import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGameStore } from '@/lib/store'
 import * as THREE from 'three'
 
 const COUNT = 1500
 
+const POSITIONS = (() => {
+  const arr = new Float32Array(COUNT * 3)
+  for (let i = 0; i < COUNT; i++) {
+    arr[i * 3]     = (Math.random() - 0.5) * 80
+    arr[i * 3 + 1] = Math.random() * 40
+    arr[i * 3 + 2] = (Math.random() - 0.5) * 80
+  }
+  return arr
+})()
+
 export function WeatherParticles() {
   const weather = useGameStore((s) => s.weather)
   const ref = useRef<THREE.Points>(null)
-
-  const positions = useMemo(() => {
-    const arr = new Float32Array(COUNT * 3)
-    for (let i = 0; i < COUNT; i++) {
-      arr[i * 3]     = (Math.random() - 0.5) * 80
-      arr[i * 3 + 1] = Math.random() * 40
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 80
-    }
-    return arr
-  }, [])
 
   const isRaining = weather === 'rain' || weather === 'storm'
 
@@ -32,12 +32,10 @@ export function WeatherParticles() {
     pts.geometry.attributes.position.needsUpdate = true
   })
 
-  if (!isRaining) return null
-
   return (
-    <points ref={ref}>
+    <points ref={ref} visible={isRaining}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-position" args={[POSITIONS, 3]} />
       </bufferGeometry>
       <pointsMaterial
         color="#aabbdd"

@@ -4,6 +4,7 @@ import { useFrame } from '@react-three/fiber'
 import { useGameStore } from '@/lib/store'
 import * as THREE from 'three'
 import type { WeatherState } from '@/lib/store'
+import type { Sky as SkyImpl } from 'three-stdlib'
 
 const SKY_TARGET: Record<WeatherState, {
   turbidity: number
@@ -24,12 +25,17 @@ export function SkyDome() {
   const weather = useGameStore((s) => s.weather)
   const t = SKY_TARGET[weather]
   const current = useRef({ turbidity: 8, rayleigh: 0.5 })
+  const skyRef = useRef<SkyImpl>(null)
   const ambientRef = useRef<THREE.AmbientLight>(null)
 
   useFrame((_, delta) => {
     const speed = delta * 0.4
     current.current.turbidity += (t.turbidity - current.current.turbidity) * speed
     current.current.rayleigh  += (t.rayleigh  - current.current.rayleigh)  * speed
+    if (skyRef.current) {
+      skyRef.current.material.uniforms['turbidity'].value = current.current.turbidity
+      skyRef.current.material.uniforms['rayleigh'].value = current.current.rayleigh
+    }
     if (ambientRef.current) {
       _ambientColor.set(t.ambientColor)
       ambientRef.current.color.lerp(_ambientColor, speed)
@@ -39,14 +45,7 @@ export function SkyDome() {
 
   return (
     <>
-      <Sky
-        distance={350}
-        sunPosition={[-20, -2, 10]}
-        turbidity={current.current.turbidity}
-        rayleigh={current.current.rayleigh}
-        mieCoefficient={0.005}
-        mieDirectionalG={0.8}
-      />
+      <Sky ref={skyRef} distance={350} sunPosition={[-20, -2, 10]} mieCoefficient={0.005} mieDirectionalG={0.8} />
       {t.starsOpacity > 0 && (
         <Stars radius={100} depth={50} count={3000} factor={4} fade speed={0} saturation={0} />
       )}

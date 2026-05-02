@@ -4,6 +4,8 @@ import { useGameStore } from '@/lib/store'
 import * as THREE from 'three'
 import type { WeatherState } from '@/lib/store'
 
+const _fogColor = new THREE.Color()
+
 const FOG_TARGET: Record<WeatherState, { near: number; far: number; color: string }> = {
   clear: { near: 80,  far: 200, color: '#060c15' },
   fog:   { near: 8,   far: 35,  color: '#0d1a10' },
@@ -27,6 +29,8 @@ export function WeatherFog() {
     } else {
       ;(scene.fog as THREE.Fog).near = current.current.near
       ;(scene.fog as THREE.Fog).far  = current.current.far
+      _fogColor.set(target.color)
+      ;(scene.fog as THREE.Fog).color.lerp(_fogColor, s)
     }
   })
 
