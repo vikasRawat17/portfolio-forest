@@ -51,7 +51,15 @@ export function Animal({ kind, position, hunterRef }: Props) {
     if (dist < cfg.fleeRadius && state.current === 'idle') {
       state.current = 'flee'
       fleeTimer.current = 3
-      _awayDir.set(pos.x - _hunterPos.x, pos.z - _hunterPos.z).normalize()
+      const dx = pos.x - _hunterPos.x
+      const dz = pos.z - _hunterPos.z
+      const len = Math.sqrt(dx * dx + dz * dz)
+      if (len < 0.001) {
+        const a = Math.random() * Math.PI * 2
+        _awayDir.set(Math.sin(a), Math.cos(a))
+      } else {
+        _awayDir.set(dx / len, dz / len)
+      }
       const offset = (Math.random() - 0.5) * Math.PI * 0.5
       const angle = Math.atan2(_awayDir.x, _awayDir.y) + offset
       wanderDir.current.set(Math.sin(angle), Math.cos(angle))
@@ -83,7 +91,7 @@ export function Animal({ kind, position, hunterRef }: Props) {
     >
       <CapsuleCollider args={cfg.size} />
       <mesh castShadow>
-        <capsuleGeometry args={[cfg.size[0], cfg.size[1], 4, 8]} />
+        <capsuleGeometry args={[cfg.size[1], cfg.size[0] * 2, 4, 8]} />
         <meshStandardMaterial color={cfg.color} roughness={0.8} />
       </mesh>
     </RigidBody>
