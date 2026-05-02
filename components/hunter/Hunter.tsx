@@ -8,6 +8,7 @@ const WALK_SPEED = 5
 const SPRINT_SPEED = 9
 
 const keys: Record<string, boolean> = {}
+const _dir = new THREE.Vector2()
 
 interface HunterProps {
   meshRef?: React.RefObject<THREE.Group | null>
@@ -44,14 +45,14 @@ export function Hunter({ meshRef: externalRef }: HunterProps = {}) {
     if (keys['KeyA'] || keys['ArrowLeft'])  dx -= 1
     if (keys['KeyD'] || keys['ArrowRight']) dx += 1
 
-    const dir = new THREE.Vector2(dx, dz)
-    const moving = dir.length() > 0
-    if (moving) dir.normalize()
+    _dir.set(dx, dz)
+    const moving = _dir.length() > 0
+    if (moving) _dir.normalize()
 
-    rb.setLinvel({ x: dir.x * speed, y: vel.y, z: dir.y * speed }, true)
+    rb.setLinvel({ x: _dir.x * speed, y: vel.y, z: _dir.y * speed }, true)
 
     if (moving) {
-      const angle = Math.atan2(dir.x, dir.y)
+      const angle = Math.atan2(_dir.x, _dir.y)
       mesh.rotation.y = THREE.MathUtils.lerp(mesh.rotation.y, angle, 0.15)
     }
   })
